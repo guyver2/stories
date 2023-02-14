@@ -9,7 +9,7 @@
   const show_public_only = true;
 </script>
 
-<NavBar showLogin={!$currentUser.isValid} showLogout={$currentUser.isValid} />
+<NavBar showLogin={!$currentUser.isValid} showLogout={$currentUser.isValid} showPublic={false} />
 <div class="stories">
   <StoryList bind:current_story {show_public_only} />
   <Story bind:story={current_story} {show_public_only} />
