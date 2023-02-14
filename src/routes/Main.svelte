@@ -16,7 +16,6 @@
   });
 
   const logout = async () => {
-    console.log('custom logout');
     pblogout();
     goto('/login');
   };

@@ -12,7 +12,7 @@
 
   async function generate_story() {
     console.log('generate a story based on:', prompt_text);
-    fetch(`/api/story?prompt=${encodeURIComponent(prompt_text)}`, {
+    fetch(`/api/story?prompt=${encodeURIComponent(prompt_text)}&userId=${encodeURIComponent($currentUser?.model?.id?? "")}`, {
       headers: {
         Authorization: 'Bearer ' + $currentUser?.token
       }
@@ -32,7 +32,6 @@
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.cover);
         cover = data.cover;
       });
   }
@@ -58,7 +57,6 @@
   }
 
   const logout = async () => {
-    console.log('custom logout');
     pblogout();
     goto('/login');
   };

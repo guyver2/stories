@@ -1,5 +1,6 @@
 <script lang="ts">
   import { pb, setStoryPublicStatus } from '$lib/pocketbase';
+  import * as moment from 'moment';
   import type { Record } from 'pocketbase';
   export let story: Record | null = null;
   export let show_public_only = false;
@@ -22,7 +23,7 @@
       <div class="about">
         <div class="about-title">About</div>
         <div>A story by <strong>{story.expand.owner.username}</strong></div>
-        <div>Created on: {story.created}</div>
+        <div>Created on: {(moment(story.created)).format('YYYY.MM.DD HH:mm')}</div>
         {#if !show_public_only}
           Public:
           <label class="switch">
@@ -79,6 +80,11 @@
     flex-direction: column;
     align-items: center;
     overflow: auto;
+    border: solid 1px var(--col2);
+    border-radius: 30px;
+    margin-bottom: 50px;
+    padding-bottom: 30px;
+    background-color: var(--col8);
   }
 
   .thumbnail {

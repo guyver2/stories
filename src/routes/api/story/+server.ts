@@ -1,39 +1,50 @@
 import { Configuration, OpenAIApi } from 'openai';
 import { OPENAI_API_KEY } from '$env/static/private';
+import { static_story } from '$lib/text';
+import { getUserCredit, setUserCredit, createRequest } from '$lib/server/pb';
 
 const configuration = new Configuration({
   apiKey: OPENAI_API_KEY
 });
 
-export async function createStory(prompt: string): Promise<string> {
-  const openai = new OpenAIApi(configuration);
-  // const response = await openai.createCompletion({
-  //     model: "text-davinci-003",
-  //     prompt: prompt,
-  //     temperature: 0,
-  //     max_tokens: 1000,
-  // });
-  //console.log(response);
-  //return response?.data?.choices[0]?.text;
-  return `Jeanne and Zoe were two young girls with a love for adventure. They lived in a small village nestled in the heart of the jungle, and spent their days exploring the vast wilderness that surrounded them.
 
-One day, as they were out for a walk, they heard the faint sound of a baby tiger crying for help. The girls followed the sound, and soon found themselves at the edge of a clearing, where they saw a group of hunters surrounding a tiny tiger cub.
 
-The hunters were planning to capture the cub and sell it to a wealthy collector, but Jeanne and Zoe knew they couldn't let that happen. They knew that the baby tiger belonged in the jungle, where it could grow and thrive in its natural habitat.
 
-Without a second thought, the two girls sprang into action. They snuck up behind the hunters and startled them, causing them to drop the cage they had prepared for the cub. The baby tiger was freed, and it ran off into the jungle, safe and sound.
+export async function createStory(prompt: string, userId:string): Promise<any> {
+  if (OPENAI_API_KEY == "TEST"){
+    createRequest(userId, prompt, "TEXT");
+    return {story: static_story, cost:0};
+  } else {
+    const openai = new OpenAIApi(configuration);
+    const response = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: prompt,
+      temperature: 0,
+      max_tokens: 1000,
+    });
+    const used_token = response?.data?.usage?.total_tokens ?? 0;
+    await createRequest(userId, prompt, "TEXT", used_token);
 
-The hunters were furious, but Jeanne and Zoe were quick and agile, and they managed to outmaneuver them and escape. They ran back to their village, triumphant and proud of what they had accomplished.
-
-The villagers were amazed by the girls' bravery, and they celebrated their victory with a feast. And as for the baby tiger, it grew up to be a strong and mighty predator, thanks to the bravery and kindness of Jeanne and Zoe.`;
+    return {story:response?.data?.choices[0]?.text ?? "error", cost:used_token} ;
+  }
 }
 
 export const GET = async ({ request, url }) => {
   const authHeader: string = request.headers.get('Authorization');
+  const userId: string = url.searchParams.get('userId');
   if (authHeader.length < 20) {
     return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401 });
   }
 
+  const credits = await getUserCredit(userId);
+  if( credits > 500) {
+    console.log("used too many credits")
+    return new Response(JSON.stringify({ text: "please buy more credits" }), { status: 200 });
+  }
+
   const prompt: string = url.searchParams.get('prompt');
-  return new Response(JSON.stringify({ text: await createStory(prompt) }), { status: 200 });
+  const {story, cost} = await createStory(prompt, userId);
+  await setUserCredit(userId, credits + cost);
+
+  return new Response(JSON.stringify({ text: story }), { status: 200 });
 };
