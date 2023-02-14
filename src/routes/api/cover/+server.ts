@@ -34,7 +34,7 @@ export const GET = async ({ request, url }) => {
     return new Response(JSON.stringify({ error: 'unauthorized' }), { status: 401 });
   }
   const credits = await getUserCredit(userId);
-  if( credits > 5000) {
+  if( credits > 50000) {
     console.log("used too many credits")
     return new Response(JSON.stringify({ text: "please buy more credits" }), { status: 200 });
 }
