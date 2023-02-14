@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-
+  import { Button } from 'sveltestrap';
   import { currentUser, pb } from '$lib/pocketbase';
   import type { Record } from 'pocketbase';
   import { onMount } from 'svelte';
@@ -24,9 +23,9 @@
       stories = resultList.items;
     }
     // select first story
-    if(stories.length) {
-        current_story = stories[0];
-      }
+    if (stories.length) {
+      current_story = stories[0];
+    }
   });
 
   let clickHandler = (story: Record) => {
@@ -49,13 +48,7 @@
   {/each}
   {#if $currentUser.isValid && !show_public_only}
     <center>
-      <button
-        on:click={() => {
-          goto('/create');
-        }}
-        class="button"
-        >Create!
-      </button>
+      <a href="/create"><Button color="warning">Create!</Button></a>
     </center>
   {/if}
 </div>
@@ -64,26 +57,6 @@
   .mainTitle {
     text-align: center;
     padding-top: 1em;
-  }
-
-  .button {
-    border: 2px solid var(--col2);
-    background-color: var(--col7);
-    color: var(--col1);
-    width: 50%;
-    outline: none;
-    cursor: pointer;
-    transition: 0.5s;
-    font-size: 24px;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-
-  .button:hover {
-    border: 2px solid var(--col7);
-    background-color: var(--col2);
-    color: var(--col3);
-    transition: all 0.3s ease-in-out;
   }
 
   .stories {

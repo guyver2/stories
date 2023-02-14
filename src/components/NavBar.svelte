@@ -2,7 +2,6 @@
     
     
 </script> -->
-
 <script lang="ts">
   import MediaQuery from './MediaQuery.svelte';
   import { logout as pblogout } from '$lib/pocketbase';
@@ -13,7 +12,7 @@
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
+    NavLink
   } from 'sveltestrap/src';
 
   let isOpen = false;
@@ -36,21 +35,21 @@
   <NavbarToggler on:click={() => (isOpen = !isOpen)} />
   <Collapse {isOpen} navbar expand="md" on:update={handleUpdate}>
     <Nav class="ms-auto" navbar>
-    {#if showLogin}
-      <NavItem>
-        <NavLink href="/login">Login</NavLink>
-      </NavItem>
-    {/if}
-    {#if showPublic}
-      <NavItem>
-        <NavLink href="/public">Public</NavLink>
-      </NavItem>
-    {/if}
-    {#if showLogout}
-      <NavItem>
-        <NavLink on:click={logout}>Logout</NavLink>
-      </NavItem>
-    {/if}
+      {#if showLogin}
+        <NavItem>
+          <NavLink href="/login">Login</NavLink>
+        </NavItem>
+      {/if}
+      {#if showPublic}
+        <NavItem>
+          <NavLink href="/public">Public</NavLink>
+        </NavItem>
+      {/if}
+      {#if showLogout}
+        <NavItem>
+          <NavLink on:click={logout}>Logout</NavLink>
+        </NavItem>
+      {/if}
     </Nav>
   </Collapse>
 </Navbar>
