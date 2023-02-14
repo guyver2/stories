@@ -10,7 +10,7 @@ const configuration = new Configuration({
 
 
 
-export async function createStory(prompt: string, userId:string): Promise<any> {
+async function createStory(prompt: string, userId:string): Promise<any> {
   if (OPENAI_API_KEY == "TEST"){
     createRequest(userId, prompt, "TEXT");
     return {story: static_story, cost:0};

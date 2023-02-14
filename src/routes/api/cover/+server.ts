@@ -7,7 +7,7 @@ const configuration = new Configuration({
   apiKey: OPENAI_API_KEY
 });
 
-export async function createCover(prompt: string): Promise<string> {
+async function createCover(prompt: string): Promise<string> {
   if (OPENAI_API_KEY == "TEST"){
     return 'data:image/png;base64,' + img;
   } else {
