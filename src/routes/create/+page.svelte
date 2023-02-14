@@ -3,7 +3,7 @@
   import { currentUser, saveStory, logout as pblogout } from '$lib/pocketbase';
   import { Buffer } from 'buffer';
   import NavBar from '../../components/NavBar.svelte';
-  import { FormGroup, Button, Input, Label } from 'sveltestrap';
+  import { FormGroup, Button, Input, Label, Spinner } from 'sveltestrap';
 
   let text = '';
   let cover = '';
@@ -13,6 +13,7 @@
   let processing = false;
 
   async function generate_story() {
+    processing = true;
     console.log('generate a story based on:', prompt_text);
     fetch(
       `/api/story?prompt=${encodeURIComponent(prompt_text)}&userId=${encodeURIComponent(
@@ -27,10 +28,16 @@
       .then((response) => response.json())
       .then((data) => {
         text = data.text;
+        processing = false;
+      })
+      .catch((error) => {
+        processing = false;
+        console.log(error);
       });
   }
 
   async function generate_cover() {
+    processing = true;
     console.log('generate a cover showing:', prompt_cover);
     fetch(`/api/cover?prompt=${encodeURIComponent(prompt_cover)}`, {
       headers: {
@@ -40,6 +47,11 @@
       .then((response) => response.json())
       .then((data) => {
         cover = data.cover;
+        processing = false;
+      })
+      .catch((error) => {
+        processing = false;
+        console.log(error);
       });
   }
 
@@ -77,8 +89,12 @@
 </script>
 
 <NavBar showLogin={false} {logout} />
+
 <div class="main">
-  <div class="form">
+  <div class="form {processing ? 'disabled' : ''}">
+    <div class="processing {processing ? '' : 'hidden'}">
+      <Spinner color="danger" size="lg" type="grow" />
+    </div>
     <form on:submit|preventDefault>
       <FormGroup>
         <Label for="story">Your Story</Label>
@@ -134,6 +150,23 @@
     padding-top: 0.5em;
   }
 
+  .disabled {
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .processing {
+    opacity: 1;
+    position: absolute;
+    transform: scale(2) translate(-25%, -25%);
+    top: 50%;
+    left: 50%;
+  }
+
   /* Desktop */
   @media only screen and (min-width: 801px) {
     .thumbnail {
@@ -176,6 +209,7 @@
     }
     .form {
       width: 80%;
+      position: relative;
     }
   }
 

@@ -24,7 +24,7 @@ async function createStory(prompt: string, userId:string): Promise<any> {
     });
     const used_token = response?.data?.usage?.total_tokens ?? 0;
     await createRequest(userId, prompt, "TEXT", used_token);
-
+    
     return {story:response?.data?.choices[0]?.text ?? "error", cost:used_token} ;
   }
 }
