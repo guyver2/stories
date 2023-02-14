@@ -4,6 +4,7 @@
   import type { Record } from 'pocketbase';
   export let story: Record | null = null;
   export let show_public_only = false;
+  export let show_info = true;
 </script>
 
 <div class="story-info">
@@ -18,6 +19,7 @@
       <div class="empty">Choose a Story.</div>
     {/if}
   </div>
+  {#if show_info}
   <div>
     {#if story}
       <div class="about">
@@ -40,13 +42,14 @@
       </div>
     {/if}
   </div>
+  {/if}
 </div>
 
 <style>
   .about {
-    border: 2px solid var(--col2);
-    background-color: var(--col7);
-    border-radius: 5px;
+    border: 1px solid #533b31;
+    background-color: rgba(var(--col8rgb), 0.5);
+    border-radius: 10px;
     padding: 10px;
     margin-top: 1em;
     margin-bottom: 1em;
@@ -80,11 +83,11 @@
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    border: solid 1px var(--col2);
+    border: solid 1px #785D52;
     border-radius: 30px;
     margin-bottom: 50px;
     padding-bottom: 30px;
-    background-color: var(--col8);
+    background-color: rgba(var(--col8rgb), 0.5);
   }
 
   .thumbnail {

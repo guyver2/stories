@@ -22,6 +22,10 @@
         .getList(1, 50, { sort: 'created', filter: `public=true`, expand: 'owner' });
       stories = resultList.items;
     }
+    // select first story
+    if(stories.length) {
+        current_story = stories[0];
+      }
   });
 
   let clickHandler = (story: Record) => {
@@ -77,7 +81,6 @@
     border: 2px solid var(--col7);
     background-color: var(--col2);
     color: var(--col3);
-    /*background-color: #1976D2;*/
     transition: all 0.3s ease-in-out;
   }
 

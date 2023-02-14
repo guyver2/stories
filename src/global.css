@@ -7,6 +7,8 @@
   --col6: #373b3b;
   --col7: #b0c4c4;
   --col8: #e6f4f4;
+  --col8rgb: 230, 244, 244;
+  --col9: #4eaa90;
 
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
@@ -20,4 +22,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+
+body {
+    background: -webkit-gradient(linear, left top, right bottom, from(#e7eec8), to(#3f1315)) fixed;
 }
