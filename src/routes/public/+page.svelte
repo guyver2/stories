@@ -36,7 +36,7 @@
       placement="end"
     >
       <div class="story-list">
-        <StoryList bind:current_story />
+        <StoryList bind:current_story {show_public_only} />
       </div>
     </Offcanvas>
     <Offcanvas

@@ -14,7 +14,6 @@
 
   async function generate_story() {
     processing = true;
-    console.log('generate a story based on:', prompt_text);
     fetch(
       `/api/story?prompt=${encodeURIComponent(prompt_text)}&userId=${encodeURIComponent(
         $currentUser?.model?.id ?? ''
@@ -38,12 +37,16 @@
 
   async function generate_cover() {
     processing = true;
-    console.log('generate a cover showing:', prompt_cover);
-    fetch(`/api/cover?prompt=${encodeURIComponent(prompt_cover)}`, {
-      headers: {
-        Authorization: 'Bearer ' + $currentUser?.token
+    fetch(
+      `/api/cover?prompt=${encodeURIComponent(prompt_cover)}&userId=${encodeURIComponent(
+        $currentUser?.model?.id ?? ''
+      )}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + $currentUser?.token
+        }
       }
-    })
+    )
       .then((response) => response.json())
       .then((data) => {
         cover = data.cover;
@@ -71,6 +74,7 @@
     formData.append('title', title);
 
     let blob = base64StringToBlob(cover);
+    console.log(blob);
     formData.append('cover', blob, 'cover.png');
     saveStory(formData);
   }

@@ -1,5 +1,6 @@
 <script lang="ts">
   import MediaQuery from './MediaQuery.svelte';
+  import ShareButton from './ShareButton.svelte';
   import { setStoryPublicStatus } from '$lib/pocketbase';
   import moment from 'moment';
   import type { Record } from 'pocketbase';
@@ -13,6 +14,8 @@
       <h1 class="about-title">About</h1>
       <div>A story by <strong>{story.expand.owner.username}</strong></div>
       <div>Created on: {moment(story.created).format('YYYY.MM.DD HH:mm')}</div>
+      <div>Direct Link: <a href="/story/{story.id}">{story.id}</a></div>
+      <!-- <ShareButton url={'/story/' + story.id} /> -->
       {#if !show_public_only}
         <div>
           Public:

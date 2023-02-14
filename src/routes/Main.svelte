@@ -26,7 +26,6 @@
   import { Button, Offcanvas } from 'sveltestrap';
   let open_stories = false;
   const toggle_stories = () => {
-    console.log('closing');
     open_stories = !open_stories;
   };
   let open_params = false;

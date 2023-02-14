@@ -12,7 +12,6 @@ const configuration = new Configuration({
 
 async function createStory(prompt: string, userId:string): Promise<any> {
   if (OPENAI_API_KEY == "TEST"){
-    createRequest(userId, prompt, "TEXT");
     return {story: static_story, cost:0};
   } else {
     const openai = new OpenAIApi(configuration);
@@ -23,7 +22,7 @@ async function createStory(prompt: string, userId:string): Promise<any> {
       max_tokens: 1000,
     });
     const used_token = response?.data?.usage?.total_tokens ?? 0;
-    await createRequest(userId, prompt, "TEXT", used_token, response?.data?.choices[0]?.text ?? "error");
+    await createRequest(userId, prompt, used_token, response?.data?.choices[0]?.text ?? "error");
     
     return {story:response?.data?.choices[0]?.text ?? "error", cost:used_token} ;
   }
