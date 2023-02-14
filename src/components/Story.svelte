@@ -1,51 +1,132 @@
 <script lang="ts">
+    import MediaQuery from './MediaQuery.svelte';
   import { pb, setStoryPublicStatus } from '$lib/pocketbase';
   import * as moment from 'moment';
   import type { Record } from 'pocketbase';
   export let story: Record | null = null;
   export let show_public_only = false;
   export let show_info = true;
-</script>
+  </script>
 
 <div class="story-info">
-  <div class="story">
-    {#if story}
-      <div class="title">{story.title}</div>
-      <div class="cover">
-        <img class="thumbnail" src={pb.getFileUrl(story, story.cover)} alt="cover: {story.title}" />
-      </div>
-      <div class="text">{story.text}</div>
-    {:else}
-      <div class="empty">Choose a Story.</div>
-    {/if}
-  </div>
-  {#if show_info}
-  <div>
-    {#if story}
-      <div class="about">
-        <div class="about-title">About</div>
-        <div>A story by <strong>{story.expand.owner.username}</strong></div>
-        <div>Created on: {(moment(story.created)).format('YYYY.MM.DD HH:mm')}</div>
-        {#if !show_public_only}
-          Public:
-          <label class="switch">
-            <input
-              type="checkbox"
-              bind:checked={story.public}
-              on:change={() => {
-                setStoryPublicStatus(story);
-              }}
-            />
-            <span class="slider round" />
-          </label>
+    <div class="story">
+        {#if story}
+            <div class="title">{story.title}</div>
+            <img class="thumbnail" src={pb.getFileUrl(story, story.cover)} alt="cover: {story.title}" />
+            <div class="text">{story.text}</div>            
+        {:else}
+            <div class="empty">Choose a Story.</div>
         {/if}
-      </div>
-    {/if}
-  </div>
-  {/if}
+    </div>
+    
+    <!-- Desktop only -->
+    <MediaQuery query="(min-width: 801px)" let:matches> 
+	{#if matches && show_info}
+        <div>
+        {#if story}
+        <div class="about">
+            <div class="about-title">About</div>
+            <div>A story by <strong>{story.expand.owner.username}</strong></div>
+            <div>Created on: {(moment(story.created)).format('YYYY.MM.DD HH:mm')}</div>
+            {#if !show_public_only}
+            Public:
+            <label class="switch">
+                <input
+                type="checkbox"
+                bind:checked={story.public}
+                on:change={() => {
+                    setStoryPublicStatus(story);
+                }}
+                />
+                <span class="slider round" />
+                </label>
+            {/if}
+            </div>
+        {/if}
+        </div>		
+	{/if}
+    </MediaQuery>
 </div>
 
 <style>
+
+     /* Desktop */
+    @media only screen and (min-width: 801px) {
+
+        .story-info {
+            display: grid;
+            grid-template-columns: 4fr 1fr;
+            gap: 10px;
+            justify-items: center;
+        }
+
+        .story {
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            border: solid 1px #785D52;
+            border-radius: 30px;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            background-color: rgba(var(--col8rgb), 0.5);
+        }
+
+        .text {
+            max-width: 600px;
+            text-align: left;
+            white-space: pre-line;
+        }
+  
+        .thumbnail {
+            min-width: 500px;
+            max-width: 500px;
+            border-radius: 10px;
+            margin-bottom: 1em;
+        }
+    }
+
+    /* Mobile */ 
+    @media only screen and (max-width: 800px) {
+
+        .story-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .story {
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: auto;
+            padding-bottom: 30px;
+        }
+        .text {
+            padding: 1em;
+            text-align: left;
+            white-space: pre-line;
+            font-size: large;
+        }
+
+        .thumbnail {
+            min-width: 90vw;
+            max-width: 90vw;
+            border-radius: 10px;
+            margin-bottom: 1em;
+        }
+
+        .title {
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+
+
+    }
+
+
   .about {
     border: 1px solid #533b31;
     background-color: rgba(var(--col8rgb), 0.5);
@@ -61,12 +142,7 @@
     font-weight: 700;
   }
 
-  .story-info {
-    display: grid;
-    grid-template-columns: 4fr 1fr;
-    gap: 10px;
-    justify-items: center;
-  }
+  
 
   .title {
     text-align: center;
@@ -77,31 +153,6 @@
     margin-bottom: 1em;
   }
 
-  .story {
-    width: 60%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: auto;
-    border: solid 1px #785D52;
-    border-radius: 30px;
-    margin-bottom: 50px;
-    padding-bottom: 30px;
-    background-color: rgba(var(--col8rgb), 0.5);
-  }
-
-  .thumbnail {
-    min-width: 500px;
-    max-width: 500px;
-    border-radius: 10px;
-    margin-bottom: 1em;
-  }
-
-  .text {
-    max-width: 600px;
-    text-align: left;
-    white-space: pre-line;
-  }
 
   /* The switch - the box around the slider */
   .switch {

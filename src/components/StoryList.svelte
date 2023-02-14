@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+
   import { currentUser, pb } from '$lib/pocketbase';
   import type { Record } from 'pocketbase';
   import { onMount } from 'svelte';
@@ -62,6 +63,7 @@
 <style>
   .mainTitle {
     text-align: center;
+    padding-top: 1em;
   }
 
   .button {
