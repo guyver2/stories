@@ -1,36 +1,33 @@
 <script lang="ts">
-  import { currentUser, logout as pblogout } from "$lib/pocketbase";
-  import StoryList from "../components/StoryList.svelte";
-  import Story from "../components/Story.svelte";
-  import NavBar from "../components/NavBar.svelte";
-  import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
-  import { bind } from "svelte/internal";
+  import { currentUser, logout as pblogout } from '$lib/pocketbase';
+  import StoryList from '../components/StoryList.svelte';
+  import Story from '../components/Story.svelte';
+  import NavBar from '../components/NavBar.svelte';
+  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+  import type { Record } from 'pocketbase';
 
-
-  let current_story: any = null;
+  let current_story: Record | null = null;
 
   onMount(async () => {
     if (!$currentUser.isValid) {
-        goto("/login");
+      goto('/login');
     }
   });
 
-
   const logout = async () => {
-    console.log("custom logout");
+    console.log('custom logout');
     pblogout();
-    goto("/login");
-  }
-
+    goto('/login');
+  };
 </script>
 
 {#if $currentUser.isValid}
-    <NavBar showLogin={false} logout={logout}/>
-    <div class="stories">
-      <StoryList bind:current_story/>
-      <Story bind:story={current_story} />
-    </div>
+  <NavBar showLogin={false} {logout} />
+  <div class="stories">
+    <StoryList bind:current_story />
+    <Story bind:story={current_story} />
+  </div>
 {/if}
 
 <style>

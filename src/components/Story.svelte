@@ -1,45 +1,47 @@
 <script lang="ts">
-  import { pb, setStoryPublicStatus } from "$lib/pocketbase";
-  export let story: any = null;
-  export let show_public_only: boolean = false;
+  import { pb, setStoryPublicStatus } from '$lib/pocketbase';
+  import type { Record } from 'pocketbase';
+  export let story: Record | null = null;
+  export let show_public_only = false;
 </script>
 
-
 <div class="story-info">
-    <div class="story">
+  <div class="story">
     {#if story}
-        <div class="title">{story.title}</div>
-        <div class="cover">
-        <img
-            class="thumbnail"
-            src={pb.getFileUrl(story, story.cover)}
-            alt="cover: {story.title}"
-        />
-        </div>
-        <div class="text">{story.text}</div>
+      <div class="title">{story.title}</div>
+      <div class="cover">
+        <img class="thumbnail" src={pb.getFileUrl(story, story.cover)} alt="cover: {story.title}" />
+      </div>
+      <div class="text">{story.text}</div>
     {:else}
-        <div class="empty">Choose a Story.</div>
+      <div class="empty">Choose a Story.</div>
     {/if}
-    </div>
-    <div>
-        {#if story}
-        <div class="about">
-            <div class="about-title">About</div>
-            <div>A story by <strong>{story.expand.owner.username}</strong></div>
-            <div>Created on: {story.created}</div>
-            {#if !show_public_only}
-                Public:
-                <label class="switch">
-                    <input type="checkbox" bind:checked={story.public} on:change={() => {setStoryPublicStatus(story)}}>
-                    <span class="slider round"></span>
-                </label>
-            {/if}
-        </div>
+  </div>
+  <div>
+    {#if story}
+      <div class="about">
+        <div class="about-title">About</div>
+        <div>A story by <strong>{story.expand.owner.username}</strong></div>
+        <div>Created on: {story.created}</div>
+        {#if !show_public_only}
+          Public:
+          <label class="switch">
+            <input
+              type="checkbox"
+              bind:checked={story.public}
+              on:change={() => {
+                setStoryPublicStatus(story);
+              }}
+            />
+            <span class="slider round" />
+          </label>
         {/if}
-    </div>
+      </div>
+    {/if}
+  </div>
 </div>
-<style>
 
+<style>
   .about {
     border: 2px solid var(--col2);
     background-color: var(--col7);
@@ -61,7 +63,6 @@
     gap: 10px;
     justify-items: center;
   }
-
 
   .title {
     text-align: center;
@@ -93,23 +94,22 @@
     white-space: pre-line;
   }
 
-
-    /* The switch - the box around the slider */
+  /* The switch - the box around the slider */
   .switch {
     position: relative;
     display: inline-block;
-    width: 35px;/* 60px;*/
+    width: 35px; /* 60px;*/
     height: 20px; /*34px;*/
   }
 
-    /* Hide default HTML checkbox */
+  /* Hide default HTML checkbox */
   .switch input {
     opacity: 0;
     width: 0;
     height: 0;
   }
 
-    /* The slider */
+  /* The slider */
   .slider {
     position: absolute;
     cursor: pointer;
@@ -118,28 +118,28 @@
     right: 0;
     bottom: 0;
     background-color: #ccc;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
   .slider:before {
     position: absolute;
-    content: "";
-    height: 16px;/*26px;*/
+    content: '';
+    height: 16px; /*26px;*/
     width: 16px; /*26px;*/
     left: 2px;
     bottom: 2px;
     background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
   }
 
   input:checked + .slider {
-    background-color: #2196F3;
+    background-color: #2196f3;
   }
 
   input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #2196f3;
   }
 
   input:checked + .slider:before {
@@ -148,14 +148,12 @@
     transform: translateX(15px);
   }
 
-    /* Rounded sliders */
+  /* Rounded sliders */
   .slider.round {
     border-radius: 16px;
   }
 
   .slider.round:before {
     border-radius: 50%;
-  } 
-
-
+  }
 </style>

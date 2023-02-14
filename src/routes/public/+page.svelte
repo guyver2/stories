@@ -1,16 +1,15 @@
 <script lang="ts">
+  import Story from '../../components/Story.svelte';
+  import NavBar from '../../components/NavBar.svelte';
+  import StoryList from '../../components/StoryList.svelte';
+  import { currentUser } from '$lib/pocketbase';
+  import type { Record } from 'pocketbase';
 
-  import Story from "../../components/Story.svelte";
-  import NavBar from "../../components/NavBar.svelte";
-  import StoryList from "../../components/StoryList.svelte";
-  import { currentUser } from "$lib/pocketbase";
-
-  let current_story: any = null;
-  const show_public_only: boolean = true;
-
+  let current_story: Record | null = null;
+  const show_public_only = true;
 </script>
 
-<NavBar showLogin={!$currentUser.isValid} showLogout={$currentUser.isValid}/>
+<NavBar showLogin={!$currentUser.isValid} showLogout={$currentUser.isValid} />
 <div class="stories">
   <StoryList bind:current_story {show_public_only} />
   <Story bind:story={current_story} {show_public_only} />

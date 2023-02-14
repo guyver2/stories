@@ -1,23 +1,22 @@
 :root {
-    --col1: #FF4858;
-    --col2: #1B7F79;
-    --col4: #72F2EB;
-    --col3: #00CCC0;
-    --col5: #747F7F;
-    --col6: #373b3b; 
-    --col7: #b0c4c4;
-    
-    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 400;
-    color: var(--col6);
-    color-scheme: light dark;
+  --col1: #ff4858;
+  --col2: #1b7f79;
+  --col4: #72f2eb;
+  --col3: #00ccc0;
+  --col5: #747f7f;
+  --col6: #373b3b;
+  --col7: #b0c4c4;
 
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: var(--col6);
+  color-scheme: light dark;
 
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
