@@ -23,7 +23,7 @@ async function createStory(prompt: string, userId:string): Promise<any> {
       max_tokens: 1000,
     });
     const used_token = response?.data?.usage?.total_tokens ?? 0;
-    await createRequest(userId, prompt, "TEXT", used_token);
+    await createRequest(userId, prompt, "TEXT", used_token, response?.data?.choices[0]?.text ?? "error");
     
     return {story:response?.data?.choices[0]?.text ?? "error", cost:used_token} ;
   }
@@ -37,7 +37,7 @@ export const GET = async ({ request, url }) => {
   }
 
   const credits = await getUserCredit(userId);
-  if( credits > 500) {
+  if( credits > 5000) {
     console.log("used too many credits")
     return new Response(JSON.stringify({ text: "please buy more credits" }), { status: 200 });
   }

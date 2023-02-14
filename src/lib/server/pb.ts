@@ -43,7 +43,7 @@ export async function setUserCredit(userId:string, amount:number): Promise<numbe
 }
 
 
-export async function createRequest(userId:string, prompt:string, type:string, token = 0) {
+export async function createRequest(userId:string, prompt:string, type:string, token = 0, result="") {
   try {
     if (token == 0) {
       token = -1;
@@ -55,6 +55,7 @@ export async function createRequest(userId:string, prompt:string, type:string, t
       token: token,
       prompt: prompt,
       type: type,
+      result: result,
     }
     console.log(data);
     await pb.collection('requests').create(data);
