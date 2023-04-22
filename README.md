@@ -1,38 +1,23 @@
-# create-svelte
+# ✨ Stories 🪄
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Generate infinite stories for kids. [GPT-3.5](https://openai.com) and [DALL-E 2](https://openai.com/product/dall-e-2) based website to create and illustrate kids' stories.
 
-## Creating a project
+![story](rm/story.jpg)
+![stories](rm/stories.jpg)
+![create](rm/create.jpg)
 
-If you're seeing this, you've probably already done this step. Congrats!
 
+## Development
+
+You first need a running instance of [PocketBase](https://pocketbase.io/). You then need to import the `pb_schema.json` file to recreate the tables.
+
+The following commands works with `npm` or `yarn`.
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
+# install dependencies
+pnpm install
 
-# create a new project in my-app
-npm create svelte@latest my-app
+# run locally
+pnpm run dev
 ```
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Enjoy. 🍌
